@@ -103,6 +103,24 @@ class TaskController extends Controller
     }
 
     /**
+     * Search tasks by title
+     * @param string $title
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function search(string $title, Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $tasks = $user->tasks()
+            ->where('title','LIKE','%'.$title.'%')
+            ->get();
+        return response()->json([
+            'data' => $tasks,
+            'count' => $tasks->count()
+        ]);
+    }
+
+    /**
      * Update a specific task
      * @param string $slug
      * @param TaskRequest $taskRequest
@@ -138,7 +156,14 @@ class TaskController extends Controller
         }
     }
 
-    public function finish(string $slug,FinishRequest $finishRequest): JsonResponse
+    /**
+     * Set the is_finished status for a task
+     * Can finish only if the steps of the tasks are finished
+     * @param string $slug
+     * @param FinishRequest $finishRequest
+     * @return JsonResponse
+     */
+    public function finish(string $slug, FinishRequest $finishRequest): JsonResponse
     {
         $user = $finishRequest->user();
         try
