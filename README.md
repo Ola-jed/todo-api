@@ -3,6 +3,18 @@
     Users can sign up and create tasks that can have many steps
     This api is meant to be used for a desktop application (QTodo)
 
+## Project setup
+```bash
+# Clone the repository
+git clone https://github.com/Ola-jed/todo-api.git
+cd todo-api
+# Create the database todo_api in your dbms
+# The other configurations are done in this script
+./setup.sh
+# If you serve, you can use the api with the app
+# 
+```
+
 ## Endpoints
 
 _**Auth routes**_
