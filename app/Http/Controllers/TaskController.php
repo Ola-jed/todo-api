@@ -30,7 +30,7 @@ class TaskController extends Controller
             ? intval($request->input('offset'))
             : 0;
         $data = $user->tasks()
-            ->latst()
+            ->latest()
             ->limit($limit)
             ->offset($offset)
             ->get();
