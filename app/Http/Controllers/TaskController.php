@@ -29,7 +29,8 @@ class TaskController extends Controller
         $offset = ($request->has('offset') && intval($request->input('offset')) > 0)
             ? intval($request->input('offset'))
             : 0;
-        $data =  $user->tasks()
+        $data = $user->tasks()
+            ->latst()
             ->limit($limit)
             ->offset($offset)
             ->get();
@@ -137,7 +138,8 @@ class TaskController extends Controller
             {
                 if(!$task->has_steps)
                 {
-                    $task->steps()->delete();
+                    $task->steps()
+                        ->delete();
                 }
                 return response()->json([
                     'message' => 'Task updated',
