@@ -10,6 +10,11 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class TaskController
+ * Manage tasks
+ * @package App\Http\Controllers
+ */
 class TaskController extends Controller
 {
     /**
