@@ -52,5 +52,3 @@ __PUT__ /steps/{id} : Modify a step
 __PUT__ /steps/{id}/finish : Set a step finished or not
 
 __DELETE__ /steps/{id} : Delete a step 
-
-
