@@ -29,6 +29,8 @@ _**Tasks**_
 
 __GET__ /tasks : Get all tasks (offset and limit can be given for pagination)
 
+__GET__ /tasks/search/{title} : Search tasks by title
+
 __POST__ /tasks : Create a new task
 
 __GET__ /tasks/{slug} : Get the corresponding task
