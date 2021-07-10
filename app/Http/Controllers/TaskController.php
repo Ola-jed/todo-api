@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FinishRequest;
 use App\Http\Requests\TaskRequest;
 use App\Models\Task;
+use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -44,6 +46,54 @@ class TaskController extends Controller
            'data' => $data,
            'count' => $count,
            'remaining' => $total - $count
+        ]);
+    }
+
+    /**
+     * Get the tasks finished by the user
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getFinished(Request $request): JsonResponse
+    {
+        $finishedTasks = $request->user()
+            ->tasks()
+            ->where('is_finished',true)
+            ->get();
+        return \response()->json([
+           'data' => $finishedTasks
+        ]);
+    }
+
+    /**
+     * Get the tasks not finished by the user
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getUnfinished(Request $request): JsonResponse
+    {
+        $unfinishedTasks = $request->user()
+            ->tasks()
+            ->where('is_finished',false)
+            ->get();
+        return \response()->json([
+            'data' => $unfinishedTasks
+        ]);
+    }
+
+    /**
+     * Get the expired tasks
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getExpired(Request $request): JsonResponse
+    {
+        $expiredTasks = $request->user()
+            ->tasks()
+            ->where('date_limit','<',Carbon::now()->toDate())
+            ->get();
+        return \response()->json([
+            'data' => $expiredTasks
         ]);
     }
 

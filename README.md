@@ -29,6 +29,12 @@ _**Tasks**_
 
 __GET__ /tasks : Get all tasks (offset and limit can be given for pagination)
 
+__GET__ /tasks/finished : Get all tasks finished by the user
+
+__GET__ /tasks/unfinished : Get all tasks not yet finished by the user
+
+__GET__ /tasks/expired : Get all the expired tasks 
+
 __GET__ /tasks/search/{title} : Search tasks by title
 
 __POST__ /tasks : Create a new task
