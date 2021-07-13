@@ -34,7 +34,7 @@ class TaskRequest extends FormRequest
             'title' => 'string|bail|required',
             'description' => 'string|bail|required',
             'date_limit' => 'date_format:d/m/Y|bail|required',
-            'priority' => 'integer|numeric|bail|required',
+            'priority' => 'integer|bail|required',
             'has_steps' => 'boolean|bail|required'
         ];
     }
