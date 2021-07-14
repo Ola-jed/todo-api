@@ -1,7 +1,7 @@
 # todo-api
-    Small api for a todo list made with laravel 8
-    Users can sign up and create tasks that can have many steps
-    This api is meant to be used for a desktop application (QTodo)
+Small api for a todo list made with laravel 8
+Users can sign up and create tasks that can have many steps
+This api is meant to be used for a [desktop application](https://github.com/Ola-jed/QTodo) and a [mobile app](https://github.com/Ola-jed/todolist)
 
 ## Project setup
 ```bash
@@ -11,8 +11,7 @@ cd todo-api
 # Create the database todo_api in your dbms
 # The other configurations are done in this script
 ./setup.sh
-# If you serve, you can use the api with the app
-# 
+# If you serve, you can use the api with the desktop or the mobile app
 ```
 
 ## Endpoints
