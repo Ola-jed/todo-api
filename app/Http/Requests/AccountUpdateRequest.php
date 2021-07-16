@@ -6,7 +6,12 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class FinishRequest extends FormRequest
+/**
+ * Class AccountUpdateRequest
+ * Request to update a user account
+ * @package App\Http\Requests
+ */
+class AccountUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +20,7 @@ class FinishRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -26,7 +31,10 @@ class FinishRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'boolean|required'
+            'name' => 'string|bail|required',
+            'email' => 'email|bail|unique:users,email|required',
+            'password' => 'string|bail|required',
+            'new_password' => 'nullable|string|bail|required',
         ];
     }
 

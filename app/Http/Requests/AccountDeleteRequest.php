@@ -6,7 +6,12 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class FinishRequest extends FormRequest
+/**
+ * Class AccountDeleteRequest
+ * Request for account deletion
+ * @package App\Http\Requests
+ */
+class AccountDeleteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +31,7 @@ class FinishRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'boolean|required'
+            'password' => 'string|bail|required'
         ];
     }
 
