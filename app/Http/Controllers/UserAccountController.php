@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AccountDeleteRequest;
 use App\Http\Requests\AccountUpdateRequest;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class UserAccountController
@@ -19,7 +23,34 @@ class UserAccountController extends Controller
      */
     public function updateAccount(AccountUpdateRequest $accountUpdateRequest): JsonResponse
     {
-
+        $user = $accountUpdateRequest->user();
+        if(Auth::attempt(['password' => $accountUpdateRequest->input('password'),'email' => $user->email]))
+        {
+            $newPwd = $accountUpdateRequest->input('new_password');
+            try
+            {
+                User::whereEmail($user->email)
+                    ->updateOrFail([
+                    'name' => $accountUpdateRequest->input('name'),
+                    'email' => $accountUpdateRequest->input('email'),
+                    'password' => is_null($newPwd) || empty(trim($newPwd))
+                        ? Hash::make($accountUpdateRequest->input('password'))
+                        : Hash::make($newPwd)
+                ]);
+                return response()->json([
+                    'message' => 'Account updated'
+                ],Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            catch (Exception)
+            {
+                return response()->json([
+                    'message' => 'Error'
+                ],Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        }
+        return response()->json([
+            'message' => 'Auth failed'
+        ],Response::HTTP_UNAUTHORIZED);
     }
 
     /**
