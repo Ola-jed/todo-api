@@ -7,6 +7,7 @@ use App\Http\Requests\AccountUpdateRequest;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,18 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class UserAccountController extends Controller
 {
+    /**
+     * Get authenticated user account
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getAccount(Request $request): JsonResponse
+    {
+        return response()->json([
+            'data' => $request->user()
+        ]);
+    }
+
     /**
      * @param AccountUpdateRequest $accountUpdateRequest
      * @return JsonResponse
