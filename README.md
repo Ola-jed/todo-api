@@ -1,6 +1,8 @@
 # todo-api
 Small api for a todo list made with laravel 8
+
 Users can sign up and create tasks that can have many steps
+
 This api is meant to be used for a [desktop application](https://github.com/Ola-jed/QTodo) and a [mobile app](https://github.com/Ola-jed/todolist)
 
 ## Project setup
@@ -23,6 +25,12 @@ __POST__ /signup : Signup to the app
 __POST__ /signin : Login to the app
 
 __POST__ /logout : Logout the connected user
+
+_**Account**_
+
+__PUT__ /account/update : Update user account
+
+__DELETE__ /account/delete : Delete the user account
 
 _**Tasks**_
 
