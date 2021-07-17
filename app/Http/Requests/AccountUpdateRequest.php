@@ -20,7 +20,7 @@ class AccountUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -32,9 +32,9 @@ class AccountUpdateRequest extends FormRequest
     {
         return [
             'name' => 'string|bail|required',
-            'email' => 'email|bail|unique:users,email|required',
+            'email' => 'email|bail|required',
             'password' => 'string|bail|required',
-            'new_password' => 'nullable|string|bail|required',
+            'new_password' => 'nullable',
         ];
     }
 

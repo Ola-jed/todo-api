@@ -24,22 +24,22 @@ class UserAccountController extends Controller
     public function updateAccount(AccountUpdateRequest $accountUpdateRequest): JsonResponse
     {
         $user = $accountUpdateRequest->user();
-        if(Auth::attempt(['password' => $accountUpdateRequest->input('password'),'email' => $user->email]))
+        if(Auth::guard('web')->attempt(['email' => $user->email,'password' => $accountUpdateRequest->input('password')]))
         {
             $newPwd = $accountUpdateRequest->input('new_password');
             try
             {
-                User::whereEmail($user->email)
-                    ->updateOrFail([
-                    'name' => $accountUpdateRequest->input('name'),
-                    'email' => $accountUpdateRequest->input('email'),
-                    'password' => is_null($newPwd) || empty(trim($newPwd))
-                        ? Hash::make($accountUpdateRequest->input('password'))
-                        : Hash::make($newPwd)
-                ]);
+                $user->name = $accountUpdateRequest->input('name');
+                $user->email = $accountUpdateRequest->input('email');
+                $user->password = Hash::make(
+                is_null($newPwd) || empty(trim($newPwd))
+                    ? $accountUpdateRequest->input('password')
+                    : $newPwd
+                );
+                $user->saveOrFail();
                 return response()->json([
                     'message' => 'Account updated'
-                ],Response::HTTP_INTERNAL_SERVER_ERROR);
+                ]);
             }
             catch (Exception)
             {
@@ -61,11 +61,17 @@ class UserAccountController extends Controller
     public function deleteAccount(AccountDeleteRequest $deleteRequest): JsonResponse
     {
         $user = $deleteRequest->user();
+        if(!Auth::guard('web')->attempt(['email' => $user->email,'password' => $deleteRequest->input('password')]))
+        {
+            return response()->json([
+                'message' => 'Auth failed'
+            ],Response::HTTP_UNAUTHORIZED);
+        }
         $hasDeleted = User::whereEmail($user->email)->delete();
         if(!$hasDeleted)
         {
             return response()->json([
-               'message' => 'Could not delete the user'
+                'message' => 'Could not delete the user'
             ]);
         }
         $user->tokens()->delete();
