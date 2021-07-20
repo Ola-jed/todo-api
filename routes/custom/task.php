@@ -3,7 +3,7 @@
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')->group(function (){
+Route::middleware('auth:sanctum')->group(function() {
     Route::get('/tasks',[TaskController::class,'all']);
     Route::get('/tasks/finished',[TaskController::class,'getFinished']);
     Route::get('/tasks/unfinished',[TaskController::class,'getUnfinished']);
