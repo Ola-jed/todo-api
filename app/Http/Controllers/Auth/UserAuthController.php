@@ -90,7 +90,6 @@ class UserAuthController extends Controller
         $email = $forgottenPasswordRequest->input('email');
         $userExists = User::whereEmail($email)
             ->exists();
-
         if(!$userExists)
         {
             return response()->json([
@@ -101,17 +100,17 @@ class UserAuthController extends Controller
         {
             $pwd = Str::random();
             User::whereEmail($email)
-                ->updateOrFail(['password' => Hash::make($pwd)]);
+                ->update(['password' => Hash::make($pwd)]);
             Mail::to($email)
                 ->send(new ForgottenPasswordMail($pwd));
             return response()->json([
                 'message' => 'Password reset'
             ]);
         }
-        catch(Exception)
+        catch(Exception $exception)
         {
             return response()->json([
-                'message' => 'Something weird happened'
+                'message' => 'Something weird happened '.$exception->getMessage()
             ],Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
