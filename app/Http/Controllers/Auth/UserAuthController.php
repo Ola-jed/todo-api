@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ForgottenPasswordRequest;
 use App\Http\Requests\SignInRequest;
 use App\Http\Requests\SignUpRequest;
 use App\Models\User;
@@ -72,5 +73,15 @@ class UserAuthController extends Controller
         return response()->json([
             'message' => 'Logout successful'
         ]);
+    }
+
+    /**
+     * Handle password reset
+     * @param ForgottenPasswordRequest $forgottenPasswordRequest
+     * @return JsonResponse
+     */
+    public function passwordReset(ForgottenPasswordRequest $forgottenPasswordRequest): JsonResponse
+    {
+
     }
 }

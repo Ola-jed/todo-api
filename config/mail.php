@@ -100,11 +100,9 @@ return [
     */
 
     'markdown' => [
-        'theme' => 'default',
-
+        'theme' => 'blue-grey',
         'paths' => [
-            resource_path('views/vendor/mail'),
+            resource_path('/views/vendor/mail'),
         ],
     ],
-
 ];
