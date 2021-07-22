@@ -26,6 +26,8 @@ __POST__ /signin : Login to the app
 
 __POST__ /logout : Logout the connected user
 
+__POST__ /password-reset : Reset the users password
+
 _**Account**_
 
 __PUT__ /account/update : Update user account
