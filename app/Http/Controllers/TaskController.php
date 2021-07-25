@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FinishRequest;
 use App\Http\Requests\TaskRequest;
 use App\Models\Task;
-use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -30,10 +29,10 @@ class TaskController extends Controller
         $total = $user
             ->tasks()
             ->count();
-        $limit = ($request->has('limit') && intval($request->input('limit')) > 0)
+        $limit = ( $request->has('limit') && intval($request->input('limit')) > 0 )
             ? intval($request->input('limit'))
             : $total;
-        $offset = ($request->has('offset') && intval($request->input('offset')) > 0)
+        $offset = ( $request->has('offset') && intval($request->input('offset')) > 0 )
             ? intval($request->input('offset'))
             : 0;
         $data = $user->tasks()
@@ -43,9 +42,9 @@ class TaskController extends Controller
             ->get();
         $count = $data->count();
         return \response()->json([
-           'data' => $data,
-           'count' => $count,
-           'remaining' => $total - $count
+            'data'      => $data,
+            'count'     => $count,
+            'remaining' => $total - $count
         ]);
     }
 
@@ -56,12 +55,11 @@ class TaskController extends Controller
      */
     public function getFinished(Request $request): JsonResponse
     {
-        $finishedTasks = $request->user()
-            ->tasks()
-            ->where('is_finished',true)
-            ->get();
         return \response()->json([
-           'data' => $finishedTasks
+            'data' => $request->user()
+                ->tasks()
+                ->where('is_finished', true)
+                ->get()
         ]);
     }
 
@@ -72,12 +70,11 @@ class TaskController extends Controller
      */
     public function getUnfinished(Request $request): JsonResponse
     {
-        $unfinishedTasks = $request->user()
-            ->tasks()
-            ->where('is_finished',false)
-            ->get();
         return \response()->json([
-            'data' => $unfinishedTasks
+            'data' => $request->user()
+                ->tasks()
+                ->where('is_finished', false)
+                ->get()
         ]);
     }
 
@@ -88,12 +85,11 @@ class TaskController extends Controller
      */
     public function getExpired(Request $request): JsonResponse
     {
-        $expiredTasks = $request->user()
-            ->tasks()
-            ->where('date_limit','<',Carbon::now()->toDate())
-            ->get();
         return \response()->json([
-            'data' => $expiredTasks
+            'data' => $request->user()
+                ->tasks()
+                ->where('date_limit', '<', Carbon::now()->toDate())
+                ->get()
         ]);
     }
 
@@ -113,14 +109,14 @@ class TaskController extends Controller
             );
             return response()->json([
                 'message' => 'Task created',
-                'data' => $newTask
+                'data'    => $newTask
             ]);
         }
-        catch (Exception)
+        catch(Exception)
         {
             return response()->json([
                 'message' => 'Could not create the task'
-            ],Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -141,20 +137,20 @@ class TaskController extends Controller
             {
                 return response()->json([
                     'message' => 'Task found',
-                    'task' => $task,
-                    'steps' => $task->steps()
+                    'task'    => $task,
+                    'steps'   => $task->steps()
                 ]);
             }
             return response()->json([
                 'message' => 'Task found',
-                'task' => $task
+                'task'    => $task
             ]);
         }
-        catch (Exception)
+        catch(Exception)
         {
             return response()->json([
                 'message' => 'Not found'
-            ],Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -168,10 +164,10 @@ class TaskController extends Controller
     {
         $user = $request->user();
         $tasks = $user->tasks()
-            ->where('title','LIKE','%'.$title.'%')
+            ->where('title', 'LIKE', '%' . $title . '%')
             ->get();
         return response()->json([
-            'data' => $tasks,
+            'data'  => $tasks,
             'count' => $tasks->count()
         ]);
     }
@@ -198,18 +194,18 @@ class TaskController extends Controller
                 }
                 return response()->json([
                     'message' => 'Task updated',
-                    'data' => $task
+                    'data'    => $task
                 ]);
             }
             return response()->json([
                 'message' => 'Update error'
-            ],Response::HTTP_INTERNAL_SERVER_ERROR);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        catch (Exception)
+        catch(Exception)
         {
             return response()->json([
                 'message' => 'Not found'
-            ],Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -229,27 +225,27 @@ class TaskController extends Controller
             if($finishRequest->input('status') && $task->has_steps)
             {
                 $aStepUnfinished = $task->steps()
-                    ->where('is_finished',false)
+                    ->where('is_finished', false)
                     ->exists();
                 if($aStepUnfinished)
                 {
                     return response()->json([
-                       'message' => 'All the steps are not yet finished'
-                    ],Response::HTTP_FORBIDDEN);
+                        'message' => 'All the steps are not yet finished'
+                    ], Response::HTTP_FORBIDDEN);
                 }
             }
             $task->is_finished = $finishRequest->input('status');
             $task->save();
             return response()->json([
                 'message' => 'Task status updated',
-                'data' => $task
+                'data'    => $task
             ]);
         }
-        catch (Exception)
+        catch(Exception)
         {
             return response()->json([
                 'message' => 'Not found'
-            ],Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -274,13 +270,13 @@ class TaskController extends Controller
             }
             return response()->json([
                 'message' => 'Deletion failed'
-            ],Response::HTTP_INTERNAL_SERVER_ERROR);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        catch (Exception)
+        catch(Exception)
         {
             return response()->json([
                 'message' => 'Not found'
-            ],Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_NOT_FOUND);
         }
     }
 }

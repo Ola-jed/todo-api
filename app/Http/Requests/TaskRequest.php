@@ -31,11 +31,11 @@ class TaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'string|bail|required',
+            'title'       => 'string|bail|required',
             'description' => 'string|bail|required',
-            'date_limit' => 'date_format:d/m/Y|bail|required',
-            'priority' => 'integer|bail|required',
-            'has_steps' => 'boolean|bail|required'
+            'date_limit'  => 'date_format:d/m/Y|bail|required',
+            'priority'    => 'integer|bail|required',
+            'has_steps'   => 'boolean|bail|required'
         ];
     }
 
@@ -46,6 +46,6 @@ class TaskRequest extends FormRequest
      */
     public function failedValidation(Validator $validator)
     {
-        throw new ValidationException($validator,response()->json($validator->errors(),422));
+        throw new ValidationException($validator, response()->json($validator->errors(), 422));
     }
 }

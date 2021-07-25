@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Contracts\Validation\Validator;
 
 /**
  * Class SignUpRequest
@@ -31,10 +31,10 @@ class SignUpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|bail|required',
-            'email' => 'email|bail|unique:users,email|required',
-            'password1' => 'string|bail|required|same:password2',
-            'password2' => 'string|bail|required|same:password1',
+            'name'        => 'string|bail|required',
+            'email'       => 'email|bail|unique:users,email|required',
+            'password1'   => 'string|bail|required|same:password2',
+            'password2'   => 'string|bail|required|same:password1',
             'device_name' => 'string|bail|required'
         ];
     }
@@ -46,6 +46,6 @@ class SignUpRequest extends FormRequest
      */
     public function failedValidation(Validator $validator)
     {
-        throw new ValidationException($validator,response()->json($validator->errors(),422));
+        throw new ValidationException($validator, response()->json($validator->errors(), 422));
     }
 }

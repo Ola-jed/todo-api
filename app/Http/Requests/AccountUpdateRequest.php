@@ -31,9 +31,9 @@ class AccountUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|bail|required',
-            'email' => 'email|bail|required',
-            'password' => 'string|bail|required',
+            'name'         => 'string|bail|required',
+            'email'        => 'email|bail|required',
+            'password'     => 'string|bail|required',
             'new_password' => 'nullable',
         ];
     }
@@ -45,6 +45,6 @@ class AccountUpdateRequest extends FormRequest
      */
     public function failedValidation(Validator $validator)
     {
-        throw new ValidationException($validator,response()->json($validator->errors(),422));
+        throw new ValidationException($validator, response()->json($validator->errors(), 422));
     }
 }

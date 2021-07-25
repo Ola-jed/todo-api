@@ -31,7 +31,7 @@ class StepRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'string|bail|required',
+            'title'    => 'string|bail|required',
             'priority' => 'integer|numeric|bail|required'
         ];
     }
@@ -43,6 +43,6 @@ class StepRequest extends FormRequest
      */
     public function failedValidation(Validator $validator)
     {
-        throw new ValidationException($validator,response()->json($validator->errors(),422));
+        throw new ValidationException($validator, response()->json($validator->errors(), 422));
     }
 }
