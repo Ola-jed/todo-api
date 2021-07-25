@@ -23,14 +23,16 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Step newModelQuery()
  * @method static Builder|Step newQuery()
  * @method static Builder|Step query()
- * @method static Builder|Step whereCreatedAt($value)
- * @method static Builder|Step whereId($value)
- * @method static Builder|Step whereIsFinished($value)
- * @method static Builder|Step wherePriority($value)
- * @method static Builder|Step whereTaskId($value)
- * @method static Builder|Step whereTitle($value)
- * @method static Builder|Step whereUpdatedAt($value)
+ * @method static Builder|Step whereCreatedAt( $value )
+ * @method static Builder|Step whereId( $value )
+ * @method static Builder|Step whereIsFinished( $value )
+ * @method static Builder|Step wherePriority( $value )
+ * @method static Builder|Step whereTaskId( $value )
+ * @method static Builder|Step whereTitle( $value )
+ * @method static Builder|Step whereUpdatedAt( $value )
  * @mixin Eloquent
+ * @property-read \App\Models\Task $task
+ * @method static \Database\Factories\StepFactory factory(...$parameters)
  */
 class Step extends Model
 {
@@ -55,11 +57,14 @@ class Step extends Model
     public static function createFromData(array $data, int $task_id): Step
     {
         $step = Step::create([
-            'title' => $data['title'],
+            'title'    => $data['title'],
             'priority' => $data['priority'],
-            'task_id' => $task_id
+            'task_id'  => $task_id
         ]);
-        if(is_null($step)) throw new Exception();
+        if(is_null($step))
+        {
+            throw new Exception();
+        }
         return $step;
     }
 
