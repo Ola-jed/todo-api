@@ -18,52 +18,27 @@ cd todo-api
 
 ## Endpoints
 
-_**Auth routes**_
-
-__POST__ /signup : Signup to the app
-
-__POST__ /signin : Login to the app
-
-__POST__ /logout : Logout the connected user
-
-__POST__ /password-reset : Reset the users password
-
-_**Account**_
-
-__PUT__ /account/update : Update user account
-
-__DELETE__ /account/delete : Delete the user account
-
-_**Tasks**_
-
-__GET__ /tasks : Get all tasks (offset and limit can be given for pagination)
-
-__GET__ /tasks/finished : Get all tasks finished by the user
-
-__GET__ /tasks/unfinished : Get all tasks not yet finished by the user
-
-__GET__ /tasks/expired : Get all the expired tasks 
-
-__GET__ /tasks/search/{title} : Search tasks by title
-
-__POST__ /tasks : Create a new task
-
-__GET__ /tasks/{slug} : Get the corresponding task
-
-__PUT__ /tasks/{slug}/finish : Set the status for the task (TODO)
-
-__PUT__ /tasks/{slug} : Modify the corresponding task
-
-__DELETE__ /tasks/{slug} : Delete the corresponding task
-
-_**Steps(of some tasks)**_
-
-__GET__ /tasks/{slug}/steps : Get all steps of a task
-
-__GET__ /steps/{id} : Get a specific step
-
-__PUT__ /steps/{id} : Modify a step
-
-__PUT__ /steps/{id}/finish : Set a step finished or not
-
-__DELETE__ /steps/{id} : Delete a step 
+| __Method__ | __Url__               | __Action__                                               |
+|------------|-----------------------|----------------------------------------------------------|
+| POST       | /signup               | Register to the app                                      |
+| POST       | /signin               | Login a user                                             |
+| POST       | /logout               | Logout the user                                          |
+| POST       | /password-reset       | Reset the user's password                                |
+| GET        | /account              | Get the user account information                         |
+| PUT        | /account              | Update the user's account                                |
+| DELETE     | /account              | Delete the account                                       |
+| GET        | /tasks                | Get the tasks created by the user (pagination available) |
+| GET        | /tasks/finished       | Get all the finished tasks                               |
+| GET        | /tasks/unfinished     | Get all the tasks not yet finished                       |
+| GET        | /tasks/expired        | Retrieve tasks that are past their due date              |
+| GET        | /tasks/search/{title} | Search all the tasks corresponding to the title          |
+| POST       | /tasks                | Create a new task                                        |
+| GET        | /tasks/{slug}         | Get the corresponding task                               |
+| PUT        | /tasks/{slug}/finish  | Update the finish status of the task                     |
+| PUT        | /tasks/{slug}         | Update a task                                            |
+| DELETE     | /tasks/{slug}         | Delete a task                                            |
+| GET        | /tasks/{slug}/steps   | Get all steps of a task                                  |
+| GET        | /steps/{id}           | Get a specific step                                      |
+| PUT        | /tasks/{slug}/finish  | Update a step                                            |
+| PUT        | /steps/{id}/finish    | Set a step finished or not                               |
+| DELETE     | /steps/{id}           | Delete a step                                            |
