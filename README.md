@@ -42,3 +42,4 @@ cd todo-api
 | PUT        | /tasks/{slug}/finish  | Update a step                                            |
 | PUT        | /steps/{id}/finish    | Set a step finished or not                               |
 | DELETE     | /steps/{id}           | Delete a step                                            |
+| GET        | /token-check          | Check if the given token is valid for further requests   |
