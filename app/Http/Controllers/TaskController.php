@@ -112,10 +112,10 @@ class TaskController extends Controller
                 'data'    => $newTask
             ]);
         }
-        catch(Exception)
+        catch(Exception $exception)
         {
             return response()->json([
-                'message' => 'Could not create the task'
+                'message' => $exception->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

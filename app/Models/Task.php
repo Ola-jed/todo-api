@@ -85,7 +85,7 @@ class Task extends Model
             ->exists();
         if($sameTaskExists)
         {
-            throw new Exception();
+            throw new Exception('Task already existing');
         }
         $task = Task::create([
             'title'       => $data['title'],
@@ -98,7 +98,7 @@ class Task extends Model
         ]);
         if(is_null($task))
         {
-            throw new Exception();
+            throw new Exception('Task creation failed');
         }
         return $task;
     }
