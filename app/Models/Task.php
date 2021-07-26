@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
@@ -86,7 +85,6 @@ class Task extends Model
             ->exists();
         if($sameTaskExists)
         {
-            Log::warning('Task existing');
             throw new Exception();
         }
         $task = Task::create([
@@ -100,7 +98,6 @@ class Task extends Model
         ]);
         if(is_null($task))
         {
-            Log::warning('Task not created');
             throw new Exception();
         }
         return $task;

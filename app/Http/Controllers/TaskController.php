@@ -116,7 +116,7 @@ class TaskController extends Controller
         {
             return response()->json([
                 'message' => 'Could not create the task'
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
