@@ -126,7 +126,7 @@ class Task extends Model
             'description' => $data['description'],
             'priority'    => $data['priority'],
             'has_steps'   => $data['has_steps'],
-            'date_limit'  => $data['date_limit']
+            'date_limit'  => Carbon::createFromFormat('d/m/Y',$data['date_limit']),
         ]);
     }
 
