@@ -31,38 +31,39 @@ class UserAuthController extends Controller
             $user = User::createFromData($signUpRequest->validated());
             $token = $user->createToken($signUpRequest->input('device_name'))->plainTextToken;
             return response()->json([
-               'user' => $user,
-               'token' => $token,
-               'token_type' => 'Bearer'
+                'user'       => $user,
+                'token'      => $token,
+                'token_type' => 'Bearer'
             ]);
         }
-        catch (Exception)
+        catch(Exception)
         {
             return response()->json([
                 'message' => 'Could not create the user'
-            ],Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 
     /**
      * Connect the user in the app
+     * We should remember the user
      * @param SignInRequest $signInRequest
      * @return JsonResponse
      */
     public function signin(SignInRequest $signInRequest): JsonResponse
     {
-        if(Auth::attempt($signInRequest->only(['email','password'])))
+        if(Auth::attempt($signInRequest->only(['email', 'password']), true))
         {
             $user = Auth::user();
             $token = $user->createToken($signInRequest->input('device_name'))->plainTextToken;
             return response()->json([
-                'user' => $user,
+                'user'  => $user,
                 'token' => $token
             ]);
         }
         return response()->json([
             'message' => 'Auth failed'
-        ],Response::HTTP_BAD_REQUEST);
+        ], Response::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -93,8 +94,8 @@ class UserAuthController extends Controller
         if(!$userExists)
         {
             return response()->json([
-               'message' => 'User does not exists'
-            ],Response::HTTP_NOT_FOUND);
+                'message' => 'User does not exists'
+            ], Response::HTTP_NOT_FOUND);
         }
         try
         {
@@ -110,8 +111,8 @@ class UserAuthController extends Controller
         catch(Exception $exception)
         {
             return response()->json([
-                'message' => 'Something weird happened '.$exception->getMessage()
-            ],Response::HTTP_INTERNAL_SERVER_ERROR);
+                'message' => 'Something weird happened ' . $exception->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

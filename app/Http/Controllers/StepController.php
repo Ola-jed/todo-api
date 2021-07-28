@@ -33,22 +33,22 @@ class StepController extends Controller
             {
                 return response()->json([
                     'message' => 'Task does not have steps'
-                ],Response::HTTP_FORBIDDEN);
+                ], Response::HTTP_FORBIDDEN);
             }
             $data = $task
                 ->steps()
                 ->get();
             return response()->json([
                 'message' => 'Steps found',
-                'data' => $data,
-                'count' => $data->count()
+                'data'    => $data,
+                'count'   => $data->count()
             ]);
         }
-        catch (Exception)
+        catch(Exception)
         {
             return response()->json([
                 'message' => 'Not found'
-            ],Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -66,21 +66,21 @@ class StepController extends Controller
             $task = $user->getTaskBySlug($slug);
             if(!$task->has_steps)
             {
-               return response()->json([
-                   'message' => 'Task does not have steps'
-               ],Response::HTTP_FORBIDDEN);
+                return response()->json([
+                    'message' => 'Task does not have steps'
+                ], Response::HTTP_FORBIDDEN);
             }
-            $step = Step::createFromData($stepRequest->validated(),$task->id);
+            $step = Step::createFromData($stepRequest->validated(), $task->id);
             return response()->json([
                 'message' => 'Step created',
-                'data' => $step
+                'data'    => $step
             ]);
         }
-        catch (Exception)
+        catch(Exception)
         {
             return response()->json([
                 'message' => 'Not found'
-            ],Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -97,11 +97,11 @@ class StepController extends Controller
         {
             return response()->json([
                 'message' => 'Not found'
-            ],Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_NOT_FOUND);
         }
         return response()->json([
             'message' => 'Step found',
-            'data' => Step::find($stepId)
+            'data'    => Step::find($stepId)
         ]);
     }
 
@@ -118,22 +118,22 @@ class StepController extends Controller
         {
             return response()->json([
                 'message' => 'Not found'
-            ],Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_NOT_FOUND);
         }
         $stepToUpdate = Step::find($stepId);
         $hasUpdated = $stepToUpdate->update([
-            'title' => $request->input('title'),
+            'title'    => $request->input('title'),
             'priority' => $request->input('priority')
         ]);
         if(!$hasUpdated)
         {
             return response()->json([
                 'message' => 'Could not update step'
-            ],Response::HTTP_INTERNAL_SERVER_ERROR);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         return response()->json([
             'message' => 'Step updated',
-            'data' => $stepToUpdate
+            'data'    => $stepToUpdate
         ]);
     }
 
@@ -150,18 +150,18 @@ class StepController extends Controller
         {
             return response()->json([
                 'message' => 'Not found'
-            ],Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_NOT_FOUND);
         }
         $stepToFinish = Step::find($stepId);
         if(!$stepToFinish->update(['is_finished' => $request->input('status')]))
         {
             return response()->json([
                 'message' => 'Could not update step'
-            ],Response::HTTP_INTERNAL_SERVER_ERROR);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         return response()->json([
             'message' => $request->input('status') ? 'Step finished' : 'Step unfinished',
-            'data' => $stepToFinish
+            'data'    => $stepToFinish
         ]);
     }
 
@@ -178,7 +178,7 @@ class StepController extends Controller
         {
             return response()->json([
                 'message' => 'Not found'
-            ],Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_NOT_FOUND);
         }
         if(Step::destroy($stepId))
         {
@@ -188,6 +188,6 @@ class StepController extends Controller
         }
         return response()->json([
             'message' => 'Could not delete step'
-        ],Response::HTTP_INTERNAL_SERVER_ERROR);
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
