@@ -68,10 +68,20 @@ class Step extends Model
         return $step;
     }
 
+    /**
+     * Mass assignable attributes
+     * @var string[]
+     */
     protected $fillable = [
         'title',
         'priority',
         'is_finished',
         'task_id'
     ];
+
+    /**
+     * No timestamps are needed
+     * @var bool
+     */
+    public $timestamps = false;
 }

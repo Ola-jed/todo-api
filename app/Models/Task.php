@@ -130,6 +130,10 @@ class Task extends Model
         ]);
     }
 
+    /**
+     * Mass assignable attributes
+     * @var string[]
+     */
     protected $fillable = [
         'title',
         'slug',
@@ -140,4 +144,10 @@ class Task extends Model
         'priority',
         'user_id'
     ];
+
+    /**
+     * No timestamps are needed
+     * @var bool
+     */
+    public $timestamps = false;
 }
