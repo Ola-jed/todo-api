@@ -7,11 +7,11 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/tasks/{slug}/steps',[StepController::class,'all']);
     Route::post('/tasks/{slug}/steps',[StepController::class,'store']);
     Route::get('/steps/{id}',[StepController::class,'getStep'])
-        ->where('id','[0-9]+');
+        ->whereNumber('id');
     Route::put('/steps/{id}',[StepController::class,'update'])
-        ->where('id','[0-9]+');
+        ->whereNumber('id');
     Route::put('/steps/{id}/finish',[StepController::class,'finish'])
-        ->where('id','[0-9]+');
+        ->whereNumber('id');
     Route::delete('/steps/{id}',[StepController::class,'delete'])
-        ->where('id','[0-9]+');
+        ->whereNumber('id');
 });
