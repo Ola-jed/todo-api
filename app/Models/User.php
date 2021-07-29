@@ -130,4 +130,10 @@ class User extends Authenticatable
         'password',
         'remember_token'
     ];
+
+    /**
+     * No timestamps are needed
+     * @var bool
+     */
+    public $timestamps = false;
 }
