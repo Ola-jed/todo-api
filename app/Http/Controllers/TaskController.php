@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FinishRequest;
 use App\Http\Requests\TaskRequest;
 use App\Models\Task;
+use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -36,7 +37,6 @@ class TaskController extends Controller
             ? intval($request->input('offset'))
             : 0;
         $data = $user->tasks()
-            ->latest()
             ->limit($limit)
             ->offset($offset)
             ->get();
@@ -73,6 +73,7 @@ class TaskController extends Controller
         return \response()->json([
             'data' => $request->user()
                 ->tasks()
+                ->orderByDesc('id')
                 ->where('is_finished', false)
                 ->get()
         ]);
