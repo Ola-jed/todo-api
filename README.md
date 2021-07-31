@@ -13,7 +13,6 @@ cd todo-api
 # Create the database todo_api in your dbms
 # The other configurations are done in this script
 ./setup.sh
-# If you serve, you can use the api with the desktop or the mobile app
 ```
 
 ## Endpoints
@@ -39,7 +38,7 @@ cd todo-api
 | DELETE     | /tasks/{slug}         | Delete a task                                            |
 | GET        | /tasks/{slug}/steps   | Get all steps of a task                                  |
 | GET        | /steps/{id}           | Get a specific step                                      |
-| PUT        | /tasks/{slug}/finish  | Update a step                                            |
+| PUT        | /steps/{id}           | Update a step                                            |
 | PUT        | /steps/{id}/finish    | Set a step finished or not                               |
 | DELETE     | /steps/{id}           | Delete a step                                            |
 | GET        | /token-check          | Check if the given token is valid for further requests   |
