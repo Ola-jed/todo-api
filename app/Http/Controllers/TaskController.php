@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FinishRequest;
 use App\Http\Requests\TaskRequest;
 use App\Models\Task;
-use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -59,6 +58,7 @@ class TaskController extends Controller
         return \response()->json([
             'data' => $request->user()
                 ->tasks()
+                ->orderByDesc('id')
                 ->where('is_finished', true)
                 ->get()
         ]);
@@ -90,6 +90,7 @@ class TaskController extends Controller
         return \response()->json([
             'data' => $request->user()
                 ->tasks()
+                ->orderByDesc('id')
                 ->where('date_limit', '<', Carbon::now()->toDate())
                 ->get()
         ]);
@@ -166,6 +167,7 @@ class TaskController extends Controller
     {
         $user = $request->user();
         $tasks = $user->tasks()
+            ->orderByDesc('id')
             ->where('title', 'LIKE', '%' . $title . '%')
             ->get();
         return response()->json([
@@ -191,8 +193,7 @@ class TaskController extends Controller
             {
                 if(!$task->has_steps)
                 {
-                    $task->steps()
-                        ->delete();
+                    $task->steps()->delete();
                 }
                 return response()->json([
                     'message' => 'Task updated',
