@@ -26,9 +26,8 @@ class UserAuthController extends Controller
             $user = User::createFromData($signUpRequest->validated());
             $token = $user->createToken($signUpRequest->input('device_name'))->plainTextToken;
             return response()->json([
-                'user'       => $user,
-                'token'      => $token,
-                'token_type' => 'Bearer'
+                'user'  => $user,
+                'token' => $token
             ]);
         }
         catch(Exception)
