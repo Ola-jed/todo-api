@@ -23,10 +23,10 @@ class StepFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence,
-            'priority' => $this->faker->numberBetween(1,10),
+            'title'       => $this->faker->sentence,
+            'priority'    => $this->faker->numberBetween(1, 10),
             'is_finished' => $this->faker->boolean(),
-            'task_id' => $this->faker->randomElement(Task::whereHasSteps(true)->get('id')->all())
+            'task_id'     => $this->faker->randomElement(Task::whereHasSteps(true)->pluck('id')->toArray())
         ];
     }
 }

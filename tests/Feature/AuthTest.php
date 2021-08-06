@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -13,6 +15,7 @@ use Tests\TestCase;
 class AuthTest extends TestCase
 {
     use WithFaker;
+    use RefreshDatabase;
 
     public function setUp(): void
     {
@@ -27,18 +30,18 @@ class AuthTest extends TestCase
     public function testRegister(): void
     {
         $password = $this->faker->password;
-        $response = $this->postJson('/api/signup', [
+        $this->postJson('/api/signup', [
             'name'        => $this->faker->name,
             'email'       => $this->faker->safeEmail,
             'password1'   => $password,
             'password2'   => $password,
             'device_name' => $this->faker->linuxPlatformToken
-        ]);
-        $response->assertOk();
-        $response->assertJsonStructure([
-            'user',
-            'token'
-        ]);
+        ])
+            ->assertOk()
+            ->assertJsonStructure([
+                'user',
+                'token'
+            ]);
     }
 
     /**
@@ -49,23 +52,23 @@ class AuthTest extends TestCase
     public function testLogin(): void
     {
         $user = User::factory()->create();
-        $response = $this->postJson('/api/signin', [
+        $this->postJson('/api/signin', [
             'email'       => $user->email,
             'password'    => '0000',
             'device_name' => $this->faker->linuxPlatformToken
-        ]);
-        $response->assertOk();
-        $response->assertJsonStructure([
-            'user',
-            'token'
-        ]);
-        $response = $this->postJson('/api/signin', [
+        ])
+            ->assertOk()
+            ->assertJsonStructure([
+                'user',
+                'token'
+            ]);
+        $this->postJson('/api/signin', [
             'email'       => $user->email,
             'password'    => 'wrongPassword',
             'device_name' => $this->faker->linuxPlatformToken
-        ]);
-        $response->assertStatus(Response::HTTP_BAD_REQUEST);
-        $response->assertExactJson(['message' => 'Auth failed']);
+        ])
+            ->assertStatus(Response::HTTP_BAD_REQUEST)
+            ->assertExactJson(['message' => 'Auth failed']);
     }
 
     /**
@@ -73,20 +76,7 @@ class AuthTest extends TestCase
      */
     public function testLogout(): void
     {
-        $user = User::factory()->create();
-        $response = $this->postJson('/api/signin', [
-            'email'       => $user->email,
-            'password'    => '0000',
-            'device_name' => $this->faker->linuxPlatformToken
-        ]);
-        $response->assertOk();
-        $response->assertJsonStructure([
-            'user',
-            'token'
-        ]);
-        $response = $this
-            ->withHeader('Authorization', 'Bearer ' . json_decode($response->content())->token)
-            ->post('/api/logout');
-        $response->assertExactJson(['message' => 'Logout successful']);
+        Sanctum::actingAs(User::factory()->create());
+        $this->post('/api/logout')->assertExactJson(['message' => 'Logout successful']);
     }
 }

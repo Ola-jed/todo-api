@@ -7,12 +7,13 @@ This api is meant to be used for a [desktop application](https://github.com/Ola-
 
 ## Project setup
 ```bash
-# Clone the repository
 git clone https://github.com/Ola-jed/todo-api.git
 cd todo-api
 # Create the database todo_api in your dbms
 # The other configurations are done in this script
 ./setup.sh
+# Run the tests
+php artisan test
 ```
 
 ## Endpoints
