@@ -12,6 +12,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class UserAuthController
+ * Controller to handle user auth
+ * @package App\Http\Controllers\Auth
+ */
 class UserAuthController extends Controller
 {
     /**

@@ -94,7 +94,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Is tis user the creator of the step ?
+     * Is this user the creator of the step ?
      * @param int $stepId
      * @return bool
      */
