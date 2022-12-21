@@ -31,7 +31,7 @@ class ForgotPasswordController extends Controller
         $email = $forgottenPasswordRequest->input('email');
         $userExists = User::whereEmail($email)
             ->exists();
-        if(!$userExists)
+        if (!$userExists)
         {
             return response()->json([
                 'message' => 'User does not exists'
@@ -40,15 +40,11 @@ class ForgotPasswordController extends Controller
         try
         {
             $pwd = Str::random();
-            User::whereEmail($email)
-                ->update(['password' => Hash::make($pwd)]);
-            Mail::to($email)
-                ->send(new ForgottenPasswordMail($pwd));
-            return response()->json([
-                'message' => 'Password reset'
-            ]);
+            User::whereEmail($email)->update(['password' => Hash::make($pwd)]);
+            Mail::to($email)->send(new ForgottenPasswordMail($pwd));
+            return response()->json(['message' => 'Password reset']);
         }
-        catch(Exception $exception)
+        catch (Exception $exception)
         {
             return response()->json([
                 'message' => 'Something weird happened ' . $exception->getMessage()

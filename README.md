@@ -1,11 +1,14 @@
 # todo-api
+
 Small api for a todo list made with laravel 8
 
 Users can sign up and create tasks that can have many steps
 
-This api is meant to be used for a [desktop application](https://github.com/Ola-jed/QTodo) and a [mobile app](https://github.com/Ola-jed/todolist)
+This api is meant to be used for a [desktop application](https://github.com/Ola-jed/QTodo) and
+a [mobile app](https://github.com/Ola-jed/todolist)
 
 ## Project setup
+
 ```bash
 git clone https://github.com/Ola-jed/todo-api.git
 cd todo-api
@@ -43,3 +46,8 @@ php artisan test
 | PUT        | /steps/{id}/finish    | Set a step finished or not                               |
 | DELETE     | /steps/{id}           | Delete a step                                            |
 | GET        | /token-check          | Check if the given token is valid for further requests   |
+
+## TODO
+
+- [ ] Job to notify the user when a task is due (Include firebase and fcm)
+- [ ] Add docker support and deploy on [Render](https://render.com/)
