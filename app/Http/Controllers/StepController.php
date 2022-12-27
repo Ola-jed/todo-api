@@ -29,7 +29,7 @@ class StepController extends Controller
         {
             $user = $request->user();
             $task = $user->getTaskBySlug($slug);
-            if(!$task->has_steps)
+            if (!$task->has_steps)
             {
                 return response()->json([
                     'message' => 'Task does not have steps'
@@ -44,7 +44,7 @@ class StepController extends Controller
                 'count'   => $data->count()
             ]);
         }
-        catch(Exception)
+        catch (Exception)
         {
             return response()->json([
                 'message' => 'Not found'
@@ -56,53 +56,35 @@ class StepController extends Controller
      * Create a new step
      * @param string $slug
      * @param StepRequest $stepRequest
-     * @return JsonResponse
+     * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function store(string $slug, StepRequest $stepRequest): JsonResponse
+    public function store(string $slug, StepRequest $stepRequest): \Illuminate\Http\Response
     {
-        try
+        $user = $stepRequest->user();
+        $task = $user->getTaskBySlug($slug);
+        if (!$task->has_steps)
         {
-            $user = $stepRequest->user();
-            $task = $user->getTaskBySlug($slug);
-            if(!$task->has_steps)
-            {
-                return response()->json([
-                    'message' => 'Task does not have steps'
-                ], Response::HTTP_FORBIDDEN);
-            }
-            $step = Step::createFromData($stepRequest->validated(), $task->id);
-            return response()->json([
-                'message' => 'Step created',
-                'data'    => $step
-            ]);
+            return response()->noContent(Response::HTTP_FORBIDDEN);
         }
-        catch(Exception)
-        {
-            return response()->json([
-                'message' => 'Not found'
-            ], Response::HTTP_NOT_FOUND);
-        }
+        Step::createFromData($stepRequest->validated(), $task->id);
+        return response()->noContent();
     }
 
     /**
      * Get a step
      * @param int $stepId
      * @param Request $request
-     * @return JsonResponse
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function getStep(int $stepId, Request $request): JsonResponse
+    public function getStep(int $stepId, Request $request): \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
     {
         $user = $request->user();
-        if(!$user->isStepAuthor($stepId))
+        if (!$user->isStepAuthor($stepId))
         {
-            return response()->json([
-                'message' => 'Not found'
-            ], Response::HTTP_NOT_FOUND);
+            return response()->noContent(Response::HTTP_NOT_FOUND);
         }
-        return response()->json([
-            'message' => 'Step found',
-            'data'    => Step::find($stepId)
-        ]);
+        return response()->json(Step::findOrFail($stepId));
     }
 
     /**
@@ -114,7 +96,7 @@ class StepController extends Controller
     public function update(int $stepId, StepRequest $request): JsonResponse
     {
         $user = $request->user();
-        if(!$user->isStepAuthor($stepId))
+        if (!$user->isStepAuthor($stepId))
         {
             return response()->json([
                 'message' => 'Not found'
@@ -125,7 +107,7 @@ class StepController extends Controller
             'title'    => $request->input('title'),
             'priority' => $request->input('priority')
         ]);
-        if(!$hasUpdated)
+        if (!$hasUpdated)
         {
             return response()->json([
                 'message' => 'Could not update step'
@@ -141,53 +123,40 @@ class StepController extends Controller
      * Set a step finished or not
      * @param int $stepId
      * @param FinishRequest $request
-     * @return JsonResponse
+     * @return \Illuminate\Http\Response
      */
-    public function finish(int $stepId, FinishRequest $request): JsonResponse
+    public function finish(int $stepId, FinishRequest $request): \Illuminate\Http\Response
     {
         $user = $request->user();
-        if(!$user->isStepAuthor($stepId))
+        if (!$user->isStepAuthor($stepId))
         {
-            return response()->json([
-                'message' => 'Not found'
-            ], Response::HTTP_NOT_FOUND);
+            return response()->noContent(Response::HTTP_NOT_FOUND);
         }
         $stepToFinish = Step::find($stepId);
-        if(!$stepToFinish->update(['is_finished' => $request->input('status')]))
+        if (!$stepToFinish->update(['is_finished' => $request->input('status')]))
         {
-            return response()->json([
-                'message' => 'Could not update step'
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->noContent(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        return response()->json([
-            'message' => $request->input('status') ? 'Step finished' : 'Step unfinished',
-            'data'    => $stepToFinish
-        ]);
+        return response()->noContent();
     }
 
     /**
      * Delete a step
      * @param int $stepId
      * @param Request $request
-     * @return JsonResponse
+     * @return \Illuminate\Http\Response
      */
-    public function delete(int $stepId, Request $request): JsonResponse
+    public function delete(int $stepId, Request $request): \Illuminate\Http\Response
     {
         $user = $request->user();
-        if(!$user->isStepAuthor($stepId))
+        if (!$user->isStepAuthor($stepId))
         {
-            return response()->json([
-                'message' => 'Not found'
-            ], Response::HTTP_NOT_FOUND);
+            return response()->noContent(Response::HTTP_NOT_FOUND);
         }
-        if(Step::destroy($stepId))
+        if (Step::destroy($stepId))
         {
-            return response()->json([
-                'message' => 'Step deleted'
-            ]);
+            return response()->noContent();
         }
-        return response()->json([
-            'message' => 'Could not delete step'
-        ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        return response()->noContent(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

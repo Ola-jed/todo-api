@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Barryvdh\LaravelIdeHelper\Eloquent;
+use Database\Factories\StepFactory;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Step
@@ -18,21 +17,17 @@ use Illuminate\Support\Carbon;
  * @property int $priority
  * @property bool $is_finished
  * @property int $task_id
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
+ * @property-read \App\Models\Task $task
+ * @method static StepFactory factory(...$parameters)
  * @method static Builder|Step newModelQuery()
  * @method static Builder|Step newQuery()
  * @method static Builder|Step query()
- * @method static Builder|Step whereCreatedAt( $value )
- * @method static Builder|Step whereId( $value )
- * @method static Builder|Step whereIsFinished( $value )
- * @method static Builder|Step wherePriority( $value )
- * @method static Builder|Step whereTaskId( $value )
- * @method static Builder|Step whereTitle( $value )
- * @method static Builder|Step whereUpdatedAt( $value )
- * @mixin Eloquent
- * @property-read \App\Models\Task $task
- * @method static \Database\Factories\StepFactory factory(...$parameters)
+ * @method static Builder|Step whereId($value)
+ * @method static Builder|Step whereIsFinished($value)
+ * @method static Builder|Step wherePriority($value)
+ * @method static Builder|Step whereTaskId($value)
+ * @method static Builder|Step whereTitle($value)
+ * @mixin \Eloquent
  */
 class Step extends Model
 {
@@ -50,18 +45,18 @@ class Step extends Model
     /**
      * Create a new step for a specific task
      * @param array $data
-     * @param int $task_id
+     * @param int $taskId
      * @return Step
      * @throws Exception
      */
-    public static function createFromData(array $data, int $task_id): Step
+    public static function createFromData(array $data, int $taskId): Step
     {
         $step = Step::create([
             'title'    => $data['title'],
             'priority' => $data['priority'],
-            'task_id'  => $task_id
+            'task_id'  => $taskId
         ]);
-        if(is_null($step))
+        if (is_null($step))
         {
             throw new Exception();
         }
