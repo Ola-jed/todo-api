@@ -17,6 +17,7 @@ cd todo-api
 ./setup.sh
 # Run the tests
 php artisan test
+# The documentation is at the path /request-docs
 ```
 
 ## Endpoints
