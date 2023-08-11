@@ -44,6 +44,7 @@ use Illuminate\Support\Str;
  * @mixin Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Step[] $steps
  * @property-read int|null $steps_count
+ * @mixin \Eloquent
  */
 class Task extends Model
 {

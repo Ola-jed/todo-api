@@ -46,6 +46,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read int|null $tasks_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
+ * @mixin \Eloquent
  */
 class User extends Authenticatable
 {
