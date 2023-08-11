@@ -6,6 +6,7 @@ use Barryvdh\LaravelIdeHelper\Eloquent;
 use Database\Factories\TaskFactory;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -42,7 +43,7 @@ use Illuminate\Support\Str;
  * @method static Builder|Task whereUpdatedAt( $value )
  * @method static Builder|Task whereUserId( $value )
  * @mixin Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Step[] $steps
+ * @property-read Collection|Step[] $steps
  * @property-read int|null $steps_count
  * @mixin \Eloquent
  */
@@ -117,10 +118,12 @@ class Task extends Model
             ->where('user_id', $this->user_id)
             ->where('id', '!=', $this->id)
             ->exists();
+
         if($sameTaskExists)
         {
             return false;
         }
+
         return $this->update([
             'title'       => $data['title'],
             'slug'        => $newSlug,
@@ -145,10 +148,4 @@ class Task extends Model
         'priority',
         'user_id'
     ];
-
-    /**
-     * No timestamps are needed
-     * @var bool
-     */
-    public $timestamps = false;
 }

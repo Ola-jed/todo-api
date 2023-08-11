@@ -6,6 +6,7 @@ use Barryvdh\LaravelIdeHelper\Eloquent;
 use Database\Factories\UserFactory;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,6 +16,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 
 /**
  * Class User
@@ -42,9 +44,9 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @mixin Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Task[] $tasks
+ * @property-read Collection|Task[] $tasks
  * @property-read int|null $tasks_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read Collection|PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  * @mixin \Eloquent
  */
@@ -84,7 +86,7 @@ class User extends Authenticatable
     /**
      * Find a task created by the user with it's slug
      * @param string $slug
-     * @return \App\Models\Task
+     * @return Task
      */
     public function getTaskBySlug(string $slug): Task
     {
@@ -130,10 +132,4 @@ class User extends Authenticatable
         'password',
         'remember_token'
     ];
-
-    /**
-     * No timestamps are needed
-     * @var bool
-     */
-    public $timestamps = false;
 }

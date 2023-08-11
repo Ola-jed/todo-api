@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FinishRequest;
+use App\Http\Requests\PaginationRequest;
 use App\Http\Requests\TaskRequest;
 use App\Models\Task;
 use Carbon\Carbon;
@@ -19,21 +20,17 @@ class TaskController extends Controller
 {
     /**
      * Get all the tasks created by the user
-     * @param Request $request
+     * @param PaginationRequest $request
      * @return JsonResponse
      */
-    public function all(Request $request): JsonResponse
+    public function all(PaginationRequest $request): JsonResponse
     {
         $user = $request->user();
         $total = $user
             ->tasks()
             ->count();
-        $limit = ($request->has('limit') && intval($request->input('limit')) > 0)
-            ? intval($request->input('limit'))
-            : $total;
-        $offset = ($request->has('offset') && intval($request->input('offset')) > 0)
-            ? intval($request->input('offset'))
-            : 0;
+        $limit = $request->integer('limit', $total);
+        $offset = $request->integer('offset');
         $data = $user->tasks()
             ->orderByDesc('id')
             ->limit($limit)

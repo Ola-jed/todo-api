@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\StepFactory;
+use Eloquent;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $priority
  * @property bool $is_finished
  * @property int $task_id
- * @property-read \App\Models\Task $task
+ * @property-read Task $task
  * @method static StepFactory factory(...$parameters)
  * @method static Builder|Step newModelQuery()
  * @method static Builder|Step newQuery()
@@ -27,7 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static Builder|Step wherePriority($value)
  * @method static Builder|Step whereTaskId($value)
  * @method static Builder|Step whereTitle($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Step extends Model
 {
@@ -73,10 +74,4 @@ class Step extends Model
         'is_finished',
         'task_id'
     ];
-
-    /**
-     * No timestamps are needed
-     * @var bool
-     */
-    public $timestamps = false;
 }

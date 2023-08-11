@@ -67,6 +67,7 @@ class StepController extends Controller
         {
             return response()->noContent(Response::HTTP_FORBIDDEN);
         }
+
         Step::createFromData($stepRequest->validated(), $task->id);
         return response()->noContent();
     }
@@ -75,9 +76,9 @@ class StepController extends Controller
      * Get a step
      * @param int $stepId
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     * @return JsonResponse|\Illuminate\Http\Response
      */
-    public function getStep(int $stepId, Request $request): \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+    public function getStep(int $stepId, Request $request): JsonResponse|\Illuminate\Http\Response
     {
         $user = $request->user();
         if (!$user->isStepAuthor($stepId))
